@@ -218,7 +218,7 @@ func NewSandbox(key string, osCreate, isRestore bool) (*Namespace, error) {
 	}
 
 	if err = n.loopbackUp(); err != nil {
-		n.nlHandle.Close()
+		n.nlHandle.Delete()
 		return nil, err
 	}
 
@@ -263,7 +263,7 @@ func GetSandboxForExternalKey(basePath string, key string) (*Namespace, error) {
 	}
 
 	if err = n.loopbackUp(); err != nil {
-		n.nlHandle.Close()
+		n.nlHandle.Delete()
 		return nil, err
 	}
 
@@ -467,7 +467,7 @@ func (n *Namespace) Key() string {
 // Destroy destroys the sandbox.
 func (n *Namespace) Destroy() error {
 	if n.nlHandle != nil {
-		n.nlHandle.Close()
+		n.nlHandle.Delete()
 	}
 	// Assuming no running process is executing in this network namespace,
 	// unmounting is sufficient to destroy it.
